@@ -1,0 +1,10 @@
+scripts
+dl
+staging_dir
+build_dir
+release
+key-build*
+bin
+tmp
+feeds
+package/fros

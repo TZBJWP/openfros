@@ -1,18 +1,18 @@
 
-#product_list="x86_64 r2s r4s k3 bcm2710_rpi redmi_ac2100 x86_64 jdyun jdyun_128 cm520 redmi_ac2100 xiaomi_ac2100 newifi3 xiaomi_660x hiwifi_5962 k2p  xiaomi_3g  xiaomi_3gpro  xiaomi_4  xiaomi_r3gv2  xiaomi_r4a  xiaoyu_c5  youku_l2 gehua"
-#product_list="r2s r4s netgear-4300v2 netgear-r7000 k2"
+#product_list="x86_64 r2s r4s k3 bcm2710_rpi redmi_ac2100 x86_64 jdyun jdyun_128 cm520 redmi_ac2100 xiaomi_ac2100 newifi3 xiaomi_660x hiwifi_5962 k2p  xiaomi_3g  xiaomi_3gpro  xiaomi_4  xiaomi_r3gv2  xiaomi_r4a  xiaoyu_c5  youku_l2 gehua "
+#product_list="r2s r4s netgear-4300v2 netgear-r7000"
 product_list="cm520"
 
-ARCH_mt7621_PRODUCT_LIST="redmi_ac2100  newifi3 xiaomi_660x hiwifi_5962 xiaomi_3g  firewrt xiaomi_3gpro pandora_box thunder  xiaomi_4  xiaomi_r3gv2 gl-inet_mt1300 xiaomi_r4a  xiaoyu_c5  youku_l2 gehua totolink_a7000 creative_box xiaomi_ac2100"
+ARCH_mt7621_PRODUCT_LIST="redmi_ac2100  newifi3 xiaomi_660x hiwifi_5962 xiaomi_3g  firewrt xiaomi_3gpro pandora_box thunder  xiaomi_4  xiaomi_r3gv2 gl-inet_mt1300 xiaomi_r4a  xiaoyu_c5  youku_l2 gehua totolink_a7000 creative_box xiaomi_ac2100  redmi_ax6s"
 ARCH_mt7620_PRODUCT_LIST="y1s xiaomi_mini hiwifi5661 k2 yk_L1 xiaomi_r3"
 ARCH_mt7628_PRODUCT_LIST="hiwifi5661A "
 ARCH_ar71xx_PRODUCT_LIST="netgear-4300v2"
 ARCH_bcm27xx_PRODUCT_LIST="bcm2710_rpi"
 ARCH_bcm53xx_PRODUCT_LIST="k3 netgear-r7000"
-ARCH_ipq40xx_PRODUCT_LIST="cm520 jdyun_128"
+ARCH_ipq40xx_PRODUCT_LIST="cm520 jdyun jdyun_128"
 ARCH_rockchip_PRODUCT_LIST="r2s r4s orange_pi"
 ARCH_x86_PRODUCT_LIST="x86_64"
-ARCH_ipq807x_PRODUCT_LIST=""
+ARCH_ipq807x_PRODUCT_LIST="redmi_ax6 xiaomi_ax3600"
 
 build_product()
 {
@@ -29,7 +29,8 @@ build_product()
 	rm tmp -fr
 	sed -i '/CONFIG_PACKAGE_kmod-app_delay/d' product/$p/product_config
 	sed -i '/CONFIG_PACKAGE_luci-app-app_delay/d' product/$p/product_config
-	echo "CONFIG_PACKAGE_kmod-app_delay=y" >>product/$p/product_config
+	echo "CONFIG_PACKAGE_ipv6helper=y" >>product/$p/product_config
+	#echo "CONFIG_PACKAGE_kmod-app_delay=y" >>product/$p/product_config
 
 	make product=$p  -j$core V=s
 	if [ $? -ne 0 ];then
