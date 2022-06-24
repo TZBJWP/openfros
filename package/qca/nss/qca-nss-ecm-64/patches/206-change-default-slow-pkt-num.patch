@@ -1,0 +1,12 @@
+diff -urN a/ecm_classifier.c b/ecm_classifier.c
+--- a/ecm_classifier.c	2022-06-07 17:06:38.598335361 +0800
++++ b/ecm_classifier.c	2022-06-07 17:07:31.064927027 +0800
+@@ -69,7 +69,7 @@
+  *  1 - Acceleration will not start until both direction traffic is seen.
+  *  N - Acceleration will not start until N packets are seen in the slow path.
+  */
+-int ecm_classifier_accel_delay_pkts = 0;
++int ecm_classifier_accel_delay_pkts = 1000000000;
+ 
+ /*
+  * ecm_classifier_assign_classifier()
