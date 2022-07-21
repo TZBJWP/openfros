@@ -58,8 +58,9 @@ init_product:
 	echo "init product $(FROS_PRODUCT)" 
 	if [ ! -z "$(FROS_PRODUCT)" ]; then \
                 if [ -e $(TOPDIR)/product/$(FROS_PRODUCT)/product_config ]; then \
-                        cp $(TOPDIR)/product/$(FROS_PRODUCT)/product_config .config; \
-			cp $(TOPDIR)/product/$(FROS_PRODUCT)/product_feature $(TOPDIR)/package/fros/fros_files/files/etc; \
+                		if [ -e $(TOPDIR)/package/fros ]; then \
+					cp $(TOPDIR)/product/$(FROS_PRODUCT)/product_feature $(TOPDIR)/package/fros/fros_files/files/etc; \
+				fi \
                 fi \
         fi
 
