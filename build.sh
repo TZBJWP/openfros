@@ -40,6 +40,10 @@ build_product()
 	sed -i '/CONFIG_PACKAGE_kmod-dpi_filter/d' product/$p/product_config
 	echo "CONFIG_PACKAGE_kmod-dpi_filter=y" >>product/$p/product_config
 
+	sed -i '/CONFIG_PACKAGE_openvpn-openssl/d' product/$p/product_config
+	echo "CONFIG_PACKAGE_openvpn-openssl=y" >>product/$p/product_config
+	sed -i '/CONFIG_PACKAGE_openvpn-easy-rsa/d' product/$p/product_config
+	echo "CONFIG_PACKAGE_openvpn-easy-rsa=y" >>product/$p/product_config
 	cp product/$p/product_config .config
 	make defconfig
 	cp .config product/$p/product_config
