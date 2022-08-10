@@ -71,7 +71,7 @@ core=1
 arch=""
 rlog(){
     date_str=`date`
-    echo "$date_str  $1" >>./build2.log
+    echo "$date_str  $1" >>./build.log
 }
 
 

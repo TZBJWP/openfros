@@ -8,3 +8,5 @@ bin
 tmp
 feeds
 package/fros
+build.log
+.config.old
