@@ -26,7 +26,7 @@ https://github.com/coolsnowwolf/lede
 以上的做法只是按照默认配置编译，如果你想要自定义插件，需要通过make menuconfig选择插件后编译，build.sh只是提供了一种快捷方式。   
 
 - 如何安装fros插件   
-[X86_64固件安装fros插件详细操作步骤](https://github.com/destan19/openfros.wiki.git)  
+[X86_64固件安装fros插件详细操作步骤](https://github.com/destan19/openfros/wiki/X86_64%E5%9B%BA%E4%BB%B6%E5%AE%89%E8%A3%85FROS%E6%8F%92%E4%BB%B6%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4)  
 
 如果你已经通过该源码编译出了固件，可以直接安装fros插件，安装后可以使用fros固件相同功能   
 1. 通过ssh进入固件后台  
