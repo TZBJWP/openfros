@@ -1,12 +1,5 @@
 ## 源码说明
-该源码为fros固件基于openwrt系统修改的源码，不包含独立的fros ipk插件（类似于android的apk）。
-### 基础仓库地址
-https://github.com/coolsnowwolf/lede
-
-### 修改内容
-- 所有适配fros固件的linux内核patch
-- 基于openwrt修改后的源码
-- 增加编译脚本
+该源码基于lean的openwrt源码进行修改，修改了部分脚本、配置和内核patch，用于适配fros插件安装
 
 ### 如何编译  
 - 编译环境搭建  
@@ -29,7 +22,9 @@ https://github.com/coolsnowwolf/lede
 [如何安装fros插件](https://github.com/destan19/openfros/wiki/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85fros%E6%8F%92%E4%BB%B6)   
 [X86_64固件安装fros插件详细操作步骤](https://github.com/destan19/openfros/wiki/X86_64%E5%9B%BA%E4%BB%B6%E5%AE%89%E8%A3%85FROS%E6%8F%92%E4%BB%B6%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4)  
 
-
-
+### 版本发布  
+在release中会发布基于该源码编译的热门固件和fros插件，可以直接在固件中安装fros插件  
+### 基础仓库地址
+https://github.com/coolsnowwolf/lede
 
 
