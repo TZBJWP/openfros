@@ -44,14 +44,18 @@ fros_files
 apid  
 web_cgi  
 
+
 5. 安装内核插件  
-应用层插件安装完成后就可以进行内核模块安装了  
-内核插件一般通过opkg命令安装会失败，校验了编译hash，所以我们需要解压后手动安装  
-- 找到内核模块kmod-dpi_filter ipk，如7621芯片对应的为kmod-dpi_filter_5.4.173-1_mipsel_24kc.ipk  
+kmod-dpi_filter   
+如果安装没有报任何错误，则跳过步骤6
+6. 手动安装内核ko
+通过openwrt包管理器(opkg）安装内核插件很可能失败，校验了版本号、配置和hash   
+如果失败，按照以下步骤进行手动强制安装:  
+- 找到内核模块kmod-dpi_filter ipk，如x86_64对应的为kmod-dpi_filter_5.10.93-1_x86_64.ipk
 - 创建解压目录  
 mkdir /tmp/kmod  
 - 解压ipk到指定目录  
-tar -zxvf kmod-dpi_filter_5.4.173-1_mipsel_24kc.ipk -C /tmp/kmod   
+tar -zxvf kmod-dpi_filter_5.10.93-1_x86_64.ipk -C /tmp/kmod   
 - 这样会出现三个压缩文件  
 root@FROS:/tmp/kmod# ls   
 control.tar.gz  data.tar.gz     debian-binary   
@@ -63,9 +67,9 @@ control.tar.gz  data.tar.gz     debian-binary
 直接执行insmod加载命令  
 
 `insmod lib/modules/$linux_version/dpi_filter.ko`  
-其中linux_version为内核版本号，不同设备可能不一样，比如5.4.173  
+其中linux_version为内核版本号，不同设备可能不一样，比如5.10.93
 则执行  
-`insmod lib/modules/5.4.173/dpi_filter.ko`  
+`insmod lib/modules/5.10.93/dpi_filter.ko`  
 执行后如果系统没有报任何错误表示可以安装成功，如果系统直接重启表示固件内核参数存在冲突，可以安装默认的内核配置编译固件再试，并终止插件安装。  
 
 - 安装内核模块  
@@ -75,7 +79,12 @@ cp lib/modules/$linux_version/dpi_filter.ko lib/modules/$linux_version/dpi_filte
 
 linux_version定义同上，根据实际目录名修改  
 
-- 安装完成，重启系统生效  
-如果重启后没有进入到fros界面，可以尝试清除浏览器缓存  
-或者直接访问192.168.66.1/index.html，如果还是不行修改下/etc/config/uhttpd配置，将index默认界面的修改为index.html   
+- 安装完成，重启服务  
+执行以下命令重启服务:  
+`
+/etc/init.d/appfilter restart  
+/etc/init.d/uhttpd restart  
+`  
+重新在浏览器中输入ip访问web界面，正常会看到新的FROS登录界面，如果没有，可以尝试清除浏览器缓存再试  
+也可以直接访问192.168.66.1/index.html （注意换成当前lan口ip）  
 
