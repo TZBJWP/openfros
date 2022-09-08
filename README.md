@@ -81,12 +81,9 @@ linux_version定义同上，根据实际目录名修改
 
 7. 安装完成，重启服务  
 执行以下命令重启服务:  
-`
-/etc/init.d/appfilter restart  
-`
-`
-/etc/init.d/uhttpd restart  
-`  
+/etc/init.d/appfilter restart   
+/etc/init.d/uhttpd restart   
+
 重新在浏览器中输入ip访问web界面，正常会看到新的FROS登录界面，如果没有，可以尝试清除浏览器缓存再试  
 也可以直接访问192.168.66.1/index.html （注意换成当前lan口ip）  
 
