@@ -48,7 +48,7 @@ web_cgi
 5. 安装内核插件  
 kmod-dpi_filter   
 如果安装没有报任何错误，则跳过步骤6
-6. 手动安装内核ko
+6. 手动安装内核ko  
 通过openwrt包管理器(opkg）安装内核插件很可能失败，校验了版本号、配置和hash   
 如果失败，按照以下步骤进行手动强制安装:  
 - 找到内核模块kmod-dpi_filter ipk，如x86_64对应的为kmod-dpi_filter_5.10.93-1_x86_64.ipk
@@ -72,14 +72,14 @@ control.tar.gz  data.tar.gz     debian-binary
 `insmod lib/modules/5.10.93/dpi_filter.ko`  
 执行后如果系统没有报任何错误表示可以安装成功，如果系统直接重启表示固件内核参数存在冲突，可以安装默认的内核配置编译固件再试，并终止插件安装。  
 
-- 安装内核模块  
-如果测试ko文件可用，直接将内核模块安装到系统   
+- 拷贝内核模块  
+如果测试ko文件可用，直接将内核模块(ko)拷贝到对应目录
 命令    
 cp lib/modules/$linux_version/dpi_filter.ko lib/modules/$linux_version/dpi_filter.ko   
 
 linux_version定义同上，根据实际目录名修改  
 
-- 安装完成，重启服务  
+7. 安装完成，重启服务  
 执行以下命令重启服务:  
 `
 /etc/init.d/appfilter restart  
