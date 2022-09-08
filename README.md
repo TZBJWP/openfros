@@ -26,66 +26,10 @@ https://github.com/coolsnowwolf/lede
 以上的做法只是按照默认配置编译，如果你想要自定义插件，需要通过make menuconfig选择插件后编译，build.sh只是提供了一种快捷方式。   
 
 - 如何安装fros插件   
+[如何安装fros插件](https://github.com/destan19/openfros/wiki/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85fros%E6%8F%92%E4%BB%B6)   
 [X86_64固件安装fros插件详细操作步骤](https://github.com/destan19/openfros/wiki/X86_64%E5%9B%BA%E4%BB%B6%E5%AE%89%E8%A3%85FROS%E6%8F%92%E4%BB%B6%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4)  
 
-如果你已经通过该源码编译出了固件，可以直接安装fros插件，安装后可以使用fros固件相同功能   
-1. 通过ssh进入固件后台  
-2. 下载fros插件包  
-3. 解压安装包，并选择自己的设备对应芯片架构的安装包，上传的固件后台/tmp目录  
-4. 安装应用层插件  
-推荐安装顺序（具体根据依赖关系修复报错）：  
-libfros_uci  
-libfros_util  
-libfros_status  
-libuci_config  
-libuk  
-rule_apply  
-license  
-appfilter  
-fros_files  
-apid  
-web_cgi  
 
 
-5. 安装内核插件  
-kmod-dpi_filter   
-如果安装没有报任何错误，则跳过步骤6
-6. 手动安装内核ko  
-通过openwrt包管理器(opkg）安装内核插件很可能失败，校验了版本号、配置和hash   
-如果失败，按照以下步骤进行手动强制安装:  
-- 找到内核模块kmod-dpi_filter ipk，如x86_64对应的为kmod-dpi_filter_5.10.93-1_x86_64.ipk
-- 创建解压目录  
-mkdir /tmp/kmod  
-- 解压ipk到指定目录  
-tar -zxvf kmod-dpi_filter_5.10.93-1_x86_64.ipk -C /tmp/kmod   
-- 这样会出现三个压缩文件  
-root@FROS:/tmp/kmod# ls   
-control.tar.gz  data.tar.gz     debian-binary   
-- 进入/tmp/kmod目录加压data.tar.gz  
-`cd /tmp/kmod`
-`tar -zxvf data.tar.gz`
-- 测试ko文件是否兼容当前固件  
-解压后会生成lib目录，lib目录的最底层包含ko内核模块，我们可以先检测ko模块是否兼容当前固件  
-直接执行insmod加载命令  
 
-`insmod lib/modules/$linux_version/dpi_filter.ko`  
-其中linux_version为内核版本号，不同设备可能不一样，比如5.10.93
-则执行  
-`insmod lib/modules/5.10.93/dpi_filter.ko`  
-执行后如果系统没有报任何错误表示可以安装成功，如果系统直接重启表示固件内核参数存在冲突，可以安装默认的内核配置编译固件再试，并终止插件安装。  
-
-- 拷贝内核模块  
-如果测试ko文件可用，直接将内核模块(ko)拷贝到对应目录
-命令    
-cp lib/modules/$linux_version/dpi_filter.ko lib/modules/$linux_version/dpi_filter.ko   
-
-linux_version定义同上，根据实际目录名修改  
-
-7. 安装完成，重启服务  
-执行以下命令重启服务:  
-/etc/init.d/appfilter restart   
-/etc/init.d/uhttpd restart   
-
-重新在浏览器中输入ip访问web界面，正常会看到新的FROS登录界面，如果没有，可以尝试清除浏览器缓存再试  
-也可以直接访问192.168.66.1/index.html （注意换成当前lan口ip）  
 
