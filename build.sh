@@ -14,7 +14,7 @@ ARCH_rockchip_PRODUCT_LIST="r2s r4s orange_pi"
 ARCH_x86_PRODUCT_LIST="x86_64"
 ARCH_ipq807x_PRODUCT_LIST="redmi_ax6 xiaomi_ax3600"
 
-ALL="redmi_ac2100 newifi3 xiaomi_660x xiaomi_ac2100 xiaomi_r3gv2 xiaomi_r4a creative_box gehua gl-inet_mt1300   hiwifi_5962   k2p   pandora_box   thunder totolink_a7000  xiaomi_3g xiaomi_3gpro xiaomi_4     xiaomi_r3   xiaoyu_c5   youhua_1200 youku_l2 cm520  r2s r4s  k3  jdyun jdyun_128 orange_pi bcm2710_rpi bcm2711_rpi xiaomi_ax3600 redmi_ax6 x86_64"
+ALL="redmi_ac2100 newifi3 xiaomi_660x xiaomi_ac2100 xiaomi_r3gv2 xiaomi_r4a creative_box gehua gl-inet_mt1300   hiwifi_5962   k2p   pandora_box   thunder totolink_a7000  xiaomi_3g xiaomi_3gpro xiaomi_4 xiaoyu_c5   youhua_1200 youku_l2 cm520  r2s r4s r2c  k3  jdyun jdyun_128 orange_pi bcm2710_rpi bcm2711_rpi xiaomi_ax3600 redmi_ax6 x86_64"
 build_product()
 {
     local p=$1
@@ -28,29 +28,34 @@ build_product()
 	fi
 	rlog "begin build product $p"
 	rm tmp -fr
-	sed -i '/CONFIG_PACKAGE_kmod-app_delay/d' product/$p/product_config
-	sed -i '/CONFIG_PACKAGE_luci-app-app_delay/d' product/$p/product_config
-	sed -i '/CONFIG_PACKAGE_ipv6helper/d' product/$p/product_config
-	sed -i '/CONFIG_PACKAGE_luci-app-zerotier/d' product/$p/product_config
-	echo "CONFIG_PACKAGE_ipv6helper=y" >>product/$p/product_config
-	echo "CONFIG_PACKAGE_luci-app-zerotier=y" >>product/$p/product_config
-	sed -i '/CONFIG_PACKAGE_luci-app-openvpn/d' product/$p/product_config
-	echo "CONFIG_PACKAGE_luci-app-openvpn=y" >>product/$p/product_config
-	#echo "CONFIG_PACKAGE_kmod-app_delay=y" >>product/$p/product_config
-	sed -i '/CONFIG_PACKAGE_kmod-dpi_filter/d' product/$p/product_config
-	echo "CONFIG_PACKAGE_kmod-dpi_filter=y" >>product/$p/product_config
-
-	sed -i '/CONFIG_PACKAGE_openvpn-openssl/d' product/$p/product_config
-	echo "CONFIG_PACKAGE_openvpn-openssl=y" >>product/$p/product_config
-	sed -i '/CONFIG_PACKAGE_openvpn-easy-rsa/d' product/$p/product_config
-	echo "CONFIG_PACKAGE_openvpn-easy-rsa=y" >>product/$p/product_config
 	cp product/$p/product_config .config
+	sed -i '/CONFIG_PACKAGE_kmod-app_delay/d' .config
+	sed -i '/CONFIG_PACKAGE_luci-app-app_delay/d' .config
+	sed -i '/CONFIG_PACKAGE_ipv6helper/d' .config
+	sed -i '/CONFIG_PACKAGE_luci-app-zerotier/d' .config
+	echo "CONFIG_PACKAGE_ipv6helper=y" >>.config
+	echo "CONFIG_PACKAGE_luci-app-zerotier=y" >>.config
+	sed -i '/CONFIG_PACKAGE_luci-app-openvpn/d' .config
+	echo "CONFIG_PACKAGE_luci-app-openvpn=y" >>.config
+	#echo "CONFIG_PACKAGE_kmod-app_delay=y" >>.config
+	sed -i '/CONFIG_PACKAGE_kmod-dpi_filter/d' .config
+	echo "CONFIG_PACKAGE_kmod-dpi_filter=y" >>.config
+
+	sed -i '/CONFIG_PACKAGE_openvpn-openssl/d' .config
+	echo "CONFIG_PACKAGE_openvpn-openssl=y" >>.config
+	sed -i '/CONFIG_PACKAGE_openvpn-easy-rsa/d' .config
+	echo "CONFIG_PACKAGE_openvpn-easy-rsa=y" >>.config
+	
 	make defconfig
-	cp .config product/$p/product_config
+	cp .config .config
 	make product=$p  -j$core V=s
 	if [ $? -ne 0 ];then
-		rlog "build product $p failed."
-		exit
+		rlog "build product $p failed, try agin"
+		make 
+		if [ $? -ne 0 ];then
+			rlog "build product $p failed."
+			exit
+		fi
 	fi
 	rlog "build product $p ok"
 	if [ ! -e "release" ];then
@@ -101,7 +106,7 @@ build_list_product()
 	rlog "build list product"
 	for product in $*;do
 		rlog "product = $product"
-		build_product $product 1
+		build_product $product 2
 	done
 	rlog "build list product done"
 }
